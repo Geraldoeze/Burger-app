@@ -3,7 +3,7 @@ import './App.css';
 import Layout from './Comps/Layout/Layout';
 import BurgerBuilder from './Comps/containers/BurgerBuilder/BurgerBuilder';
 
-class App extends React.Component {
+class App extends Component {
   render() { 
     return(
     <div>
