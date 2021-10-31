@@ -1,13 +1,14 @@
 import './Toolbar.css'
 import Logo from '../../Logo/Logo';
 import NavigationItems from '../NavigationItems/NavigationItems';
+import DrawerToogle from '../SideDrawer/DrawToogle/DrawToogle';
 
 
 const toolbar = () => {
     return (
         <header className="Toolbar">
-            <div>MENU</div>
-            <Logo height="80%"/>
+            <DrawerToogle />
+            <Logo className="Logo"/>
             <nav className="DesktopOnly">
                 <NavigationItems />
             </nav>
