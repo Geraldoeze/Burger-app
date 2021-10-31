@@ -1,12 +1,15 @@
 import './Toolbar.css'
+import Logo from '../../Logo/Logo';
+import NavigationItems from '../NavigationItems/NavigationItems';
+
 
 const toolbar = () => {
     return (
         <header className="Toolbar">
             <div>MENU</div>
-            <div>LOGO</div>
-            <nav>
-                <ul></ul>
+            <Logo height="80%"/>
+            <nav className="DesktopOnly">
+                <NavigationItems />
             </nav>
         </header>
     );
