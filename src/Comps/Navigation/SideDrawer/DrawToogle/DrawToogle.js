@@ -1,9 +1,14 @@
 
+import './DrawToggle.css'
 
-
-const drawerToogle = () => {
+const drawerToogle = (props) => {
     return ( 
-        <div>MENU</div>
+        <div onClick={props.clicked} className="DrawerToggle">
+            <div></div>           
+            <div></div>
+            <div></div>
+
+        </div>
      );
 }
  

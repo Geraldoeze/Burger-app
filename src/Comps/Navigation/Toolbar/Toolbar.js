@@ -4,11 +4,13 @@ import NavigationItems from '../NavigationItems/NavigationItems';
 import DrawerToogle from '../SideDrawer/DrawToogle/DrawToogle';
 
 
-const toolbar = () => {
+const toolbar = (props) => {
     return (
         <header className="Toolbar">
-            <DrawerToogle />
-            <Logo className="Logo"/>
+            <DrawerToogle clicked={props.drawerToggleClicked} />
+            
+                <Logo height="80%" />
+            
             <nav className="DesktopOnly">
                 <NavigationItems />
             </nav>
