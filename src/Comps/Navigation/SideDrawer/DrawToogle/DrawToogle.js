@@ -1,7 +1,7 @@
 
 import './DrawToggle.css'
 
-const drawerToogle = (props) => {
+const DrawerToogle = (props) => {
     return ( 
         <div onClick={props.clicked} className="DrawerToggle">
             <div></div>           
@@ -12,4 +12,4 @@ const drawerToogle = (props) => {
      );
 }
  
-export default drawerToogle;
+export default DrawerToogle;
