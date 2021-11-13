@@ -2,8 +2,7 @@
 import React from 'react'
 import "./Burger.css";
 import BurgerIngredient from './BurgerIngredients/BurgerIngredients'
-// import { useHref} from 'react-router-dom';
-import { useMatch } from 'react-router';
+
 
 
 
@@ -20,8 +19,7 @@ const Burger = (props) => {
     if (transformedIngredients.length === 0){
       transformedIngredients = <p>Please start adding Ingredients </p>
     }   
-    let same = useMatch()
-    console.log(same)
+    
     return (
         <div className="Burger">
           <BurgerIngredient  type="bread-top"/>
