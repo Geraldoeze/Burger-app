@@ -31,6 +31,7 @@ class BurgerBuilder extends Component {
     }
 
     componentDidMount(){
+        console.log(window.history)
         axios.get(`https://burger-app-8ed4f-default-rtdb.firebaseio.com/ingredients.json`)
             .then(response => {
                 
@@ -96,28 +97,29 @@ class BurgerBuilder extends Component {
 
             pruchaseContinueHandler = () => {
                 //alert('Your Order')
-                this.setState({ loading: true});
-                const order = {
-                    ingredients: this.state.ingredients,
-                    price: this.state.totalPrice,
-                    customer: {
-                        name: 'Gerald Eze',
-                        address: {
-                            street: 'kubwa',
-                            zipCode: '901101',
-                            country: 'Nigeria'
-                        },
-                        email: 'truetest@test.com'
-                    },
-                    deliveryMethod: 'fastest'
-                }
-                axios.post(`/orders`, order)
-                    .then(res => {
-                        this.setState({ loading: false, purchasing: false })
-                    })
-                    .catch(err => {
-                        this.setState({ loading: false, purchasing: false })
-                    });
+                // this.setState({ loading: true});
+                // const order = {
+                //     ingredients: this.state.ingredients,
+                //     price: this.state.totalPrice,
+                //     customer: {
+                //         name: 'Gerald Eze',
+                //         address: {
+                //             street: 'kubwa',
+                //             zipCode: '901101',
+                //             country: 'Nigeria'
+                //         },
+                //         email: 'truetest@test.com'
+                //     },
+                //     deliveryMethod: 'fastest'
+                // }
+                // axios.post(`/orders`, order)
+                //     .then(res => {
+                //         this.setState({ loading: false, purchasing: false })
+                //     })
+                //     .catch(err => {
+                //         this.setState({ loading: false, purchasing: false })
+                //     });
+                
             }
     render() {  
         const disableInfo = {
