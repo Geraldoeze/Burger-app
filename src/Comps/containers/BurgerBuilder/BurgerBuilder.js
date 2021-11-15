@@ -7,8 +7,7 @@ import OrderSummary from '../../Burger/OrderSummary/OrderSummary';
 import axios from '../../../axios-orders';
 import Spinner from '../../UI/Spinner/Spinner';
 import withErrorHandler from '../../../hoc/withErrorHandler/withErrorHandler';
-
-
+import withRouter from '../../../hoc/withRouter/withRouter';
 
 
 
@@ -31,7 +30,8 @@ class BurgerBuilder extends Component {
     }
 
     componentDidMount(){
-        console.log(window.history)
+        console.log(this.props)
+
         axios.get(`https://burger-app-8ed4f-default-rtdb.firebaseio.com/ingredients.json`)
             .then(response => {
                 
@@ -119,7 +119,16 @@ class BurgerBuilder extends Component {
                 //     .catch(err => {
                 //         this.setState({ loading: false, purchasing: false })
                 //     });
-                
+                const queryParams = [];
+                for (let i in this.state.ingredients){
+                    queryParams.push(encodeURIComponent(i) + '=' + encodeURIComponent(this.state.ingredients[i]))
+                }
+
+                const queryString = queryParams.join('&')
+                this.props.navigate({
+                    pathname:'/checkout',
+                    search: "?" + queryString
+                }) 
             }
     render() {  
         const disableInfo = {
@@ -169,4 +178,4 @@ class BurgerBuilder extends Component {
     }
 }
  
-export default withErrorHandler(BurgerBuilder, axios);  
+export default withRouter(withErrorHandler(BurgerBuilder, axios));  
