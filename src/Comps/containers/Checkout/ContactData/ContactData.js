@@ -14,11 +14,12 @@ class ContactData extends React.Component {
     }
 
  orderHandler = (event) => {
-     event.preventDefault()
-     console.log(this.state.ingredients)
+     event.preventDefault();
+     
  }
 
     render() { 
+        console.log(this.props.stuff)
         return (
             <div className="ContactData">
                 <h4>Enter your Contact Data</h4>

@@ -9,15 +9,18 @@ import ContactData from './Comps/containers/Checkout/ContactData/ContactData';
 
 class App extends Component {
   
+
+  ball = () =>{
+    return console.log('balls')
+  }
   render() {  
-    
     return(
     <div>
       <Layout>
         <Routes>
-          <Route path="/checkout" element={<Checkout/>} />        
+          <Route path="/checkout/*" element={<Checkout/>} />        
           <Route path="/" exact element={<BurgerBuilder/>} />
-          <Route path="/checkout/contact-data" element={<ContactData/>} /> 
+          <Route path="/checkout/contact-data" element={<ContactData stuff={this.ball} />} />      
 
         </Routes> 
       </Layout>

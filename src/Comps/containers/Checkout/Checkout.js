@@ -3,6 +3,7 @@ import CheckoutSummary from '../../Order/CheckoutSummary/CheckoutSummary'
 import withRouter from '../../../hoc/withRouter/withRouter'
 import { Route, Routes } from 'react-router-dom'
 import ContactData from './ContactData/ContactData'
+import { Link } from 'react-router-dom'
 
 
 class Checkout extends React.Component {
@@ -32,10 +33,11 @@ class Checkout extends React.Component {
     checkoutContinuedHandler = () => {
         this.props.navigate({
             pathname:"/checkout/contact-data",
-            replace: true})
+            replace: false})
     }
 
     render(){
+        const path = this.props.param
         console.log(this.props.location.pathname + '/contact-data')
         return(
             <div>
@@ -44,10 +46,12 @@ class Checkout extends React.Component {
                   checkoutCancelled={this.checkoutCancelledHandler}
                   checkoutContinued={this.checkoutContinuedHandler}/>
                 <Routes>
-                    <Route path={this.props.location.pathname + "/contact-data"} element={<ContactData ingredients={this.state.ingredients}/>} />
-                </Routes>
+                <Route
+                    path =  {`${path}`}
+                    element = {<ContactData stuff={this.props.param}/>}
+                   />           
                     
-                
+                </Routes>
             </div>
         )
     }
