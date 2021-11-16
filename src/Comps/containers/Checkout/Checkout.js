@@ -3,10 +3,12 @@ import CheckoutSummary from '../../Order/CheckoutSummary/CheckoutSummary'
 import withRouter from '../../../hoc/withRouter/withRouter'
 import { Route, Routes } from 'react-router-dom'
 import ContactData from './ContactData/ContactData'
-import { Link } from 'react-router-dom'
+ import { Link } from 'react-router-dom'
 
 
 class Checkout extends React.Component {
+    
+   
     state = {
         ingredients: {
             salad:1,
@@ -32,29 +34,47 @@ class Checkout extends React.Component {
 
     checkoutContinuedHandler = () => {
         this.props.navigate({
-            pathname:"/checkout/contact-data",
+            pathname:"/contact-data",
             replace: false})
+        this.props.callback(this.state.ingredients)    
     }
+    static defaultProps =  this.state
+    
 
     render(){
-        const path = this.props.param
-        console.log(this.props.location.pathname + '/contact-data')
+       
+
+        
+        console.log(this.state.ingredients)
         return(
             <div>
                  <CheckoutSummary
                   ingredients={this.state.ingredients}
                   checkoutCancelled={this.checkoutCancelledHandler}
                   checkoutContinued={this.checkoutContinuedHandler}/>
-                <Routes>
-                <Route
-                    path =  {`${path}`}
-                    element = {<ContactData stuff={this.props.param}/>}
-                   />           
+            
+                    {/* <Link to = "/contact-data" Component={<ContactData/>}
+                    >
                     
+                        <ContactData stuff />
+
+                    </Link>
+                      
+                    
+                 */}
+                <Routes>
+                    <Route path="/contact-data" element={<ContactData/>}
+                    />
                 </Routes>
+                
+                             
+                    
+                
             </div>
         )
     }
 }
 
 export default withRouter(Checkout);
+
+
