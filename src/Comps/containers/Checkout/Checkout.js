@@ -1,32 +1,33 @@
 import React from 'react'
 import CheckoutSummary from '../../Order/CheckoutSummary/CheckoutSummary'
 import withRouter from '../../../hoc/withRouter/withRouter'
-import { Route, Routes } from 'react-router-dom'
-import ContactData from './ContactData/ContactData'
- import { Link } from 'react-router-dom'
+
 
 
 class Checkout extends React.Component {
     
    
     state = {
-        ingredients: {
-            salad:1,
-            meat:1,
-            cheese:1,
-            bacon:1
-        }
+        ingredients: "",
+        price: 0
     }
 
     componentDidMount(){
         
         const query = new URLSearchParams(this.props.location.search);
         const ingredients = {};
+        let price = 0;
         for (let param of query.entries()) {
             //['salad','1']
-            ingredients[param[0]] = +param[1];
+            if(param[0] === 'price') {
+                price = param[1];
+            }  else {
+                ingredients[param[0]] = +param[1];
+                }            
         }
-        this.setState({ingredients: ingredients});
+
+        this.setState({ingredients: ingredients, totalPrice: price});
+
     }
     checkoutCancelledHandler = () => {
         this.props.navigate(-1);
@@ -34,18 +35,20 @@ class Checkout extends React.Component {
 
     checkoutContinuedHandler = () => {
         this.props.navigate({
-            pathname:"/contact-data",
-            replace: false})
-        this.props.callback(this.state.ingredients)    
+            pathname: "/checkout/contact-data",
+            replace: true})
+        this.props.callback(this.state.ingredients) 
+        this.props.pricecall(this.state.totalPrice)    
+
     }
-    static defaultProps =  this.state
+    
     
 
     render(){
        
 
         
-        console.log(this.state.ingredients)
+        console.log(this.state.ingredients, this.props.location.pathname)
         return(
             <div>
                  <CheckoutSummary
@@ -53,23 +56,7 @@ class Checkout extends React.Component {
                   checkoutCancelled={this.checkoutCancelledHandler}
                   checkoutContinued={this.checkoutContinuedHandler}/>
             
-                    {/* <Link to = "/contact-data" Component={<ContactData/>}
-                    >
-                    
-                        <ContactData stuff />
-
-                    </Link>
-                      
-                    
-                 */}
-                <Routes>
-                    <Route path="/contact-data" element={<ContactData/>}
-                    />
-                </Routes>
-                
-                             
-                    
-                
+                                                         
             </div>
         )
     }
