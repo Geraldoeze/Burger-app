@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import './App.css';
 import Layout from './hoc/Layout/Layout';
-import BurgerBuilder from './Comps/containers/BurgerBuilder/BurgerBuilder';
-import Checkout from './Comps/containers/Checkout/Checkout';
+import BurgerBuilder from './containers/BurgerBuilder/BurgerBuilder';
+import Checkout from './containers/Checkout/Checkout';
 import { Routes, Route } from 'react-router-dom'
 import withRouter from './hoc/withRouter/withRouter';
-import ContactData from './Comps/containers/Checkout/ContactData/ContactData';
+import ContactData from './containers/Checkout/ContactData/ContactData';
+import Orders from './containers/Orders/Orders';
 
 
 class App extends Component {
@@ -30,6 +31,7 @@ class App extends Component {
     <div>
       <Layout>
         <Routes>
+          <Route  path="/orders" element={<Orders/>} />
           <Route path="/checkout" element={<Checkout pricecall={this.PriceCallback} callback={this.handleCallback}/>} />        
           <Route path="/" exact element={<BurgerBuilder/>} />
           <Route path="/checkout/contact-data" 

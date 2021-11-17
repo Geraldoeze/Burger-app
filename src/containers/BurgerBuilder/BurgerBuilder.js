@@ -1,14 +1,13 @@
-import React, { Component } from 'react';
-import Aux from '../../../hoc/Auxillary';
-import Burger from '../../Burger/Burger';
-import BuildControls from '../../Burger/BuildControls/BuildControls';
-import Modal from '../../UI/Modal/Modal'
-import OrderSummary from '../../Burger/OrderSummary/OrderSummary';
-import axios from '../../../axios-orders';
-import Spinner from '../../UI/Spinner/Spinner';
-import withErrorHandler from '../../../hoc/withErrorHandler/withErrorHandler';
-import withRouter from '../../../hoc/withRouter/withRouter';
-
+import React, {Component } from 'react';
+import Aux from '../../hoc/Auxillary';
+import Burger from '../../Comps/Burger/Burger';
+import BuildControls from '../../Comps/Burger/BuildControls/BuildControls';
+import Modal from '../../Comps/UI/Modal/Modal'
+import OrderSummary from '../../Comps/Burger/OrderSummary/OrderSummary';
+import axios from '../../axios-orders'
+import Spinner from '../../Comps/UI/Spinner/Spinner';
+import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
+import withRouter from '../../hoc/withRouter/withRouter';
 
 
 const INGREDIENTS_PRICES = {
@@ -30,7 +29,6 @@ class BurgerBuilder extends Component {
     }
 
     componentDidMount(){
-        console.log(this.props)
 
         axios.get(`https://burger-app-8ed4f-default-rtdb.firebaseio.com/ingredients.json`)
             .then(response => {
@@ -96,8 +94,8 @@ class BurgerBuilder extends Component {
             }
 
             pruchaseContinueHandler = () => {
-                //alert('Your Order')
-              
+                alert('Your Order')
+                
                 const queryParams = [];
                 for (let i in this.state.ingredients){
                     queryParams.push(encodeURIComponent(i) + '=' + encodeURIComponent(this.state.ingredients[i]))

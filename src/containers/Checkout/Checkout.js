@@ -1,8 +1,6 @@
 import React from 'react'
-import CheckoutSummary from '../../Order/CheckoutSummary/CheckoutSummary'
-import withRouter from '../../../hoc/withRouter/withRouter'
-
-
+import withRouter from '../../hoc/withRouter/withRouter'
+import CheckoutSummary from '../../Comps/Order/CheckoutSummary/CheckoutSummary'
 
 class Checkout extends React.Component {
     

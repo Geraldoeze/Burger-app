@@ -6,9 +6,7 @@ import '../../UI/Button/Button.css'
 
 class OrderSummary extends Component {
     //This could be a functional component
-    componentDidUpdate() {
-         
-    }
+    
     render(){
     const ingredientSummary = Object.keys(this.props.ingredients)
         .map(igKey => {
