@@ -53,7 +53,7 @@ class Checkout extends React.Component {
                   ingredients={this.state.ingredients}
                   checkoutCancelled={this.checkoutCancelledHandler}
                   checkoutContinued={this.checkoutContinuedHandler}/>
-            
+                <Link to="/checkout/contact-data">ContactData</Link>
                                                          
             </div>
         )
