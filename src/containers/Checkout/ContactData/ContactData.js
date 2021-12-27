@@ -188,7 +188,7 @@ for (let key in this.state.orderForm){
                                 changed={(event) => this.inputChangedHandler(event, formElement.id)}
                             />
                         ))}
-                        <Button btnType="Button Success" disable={!this.state.formIsvalid}> Order Now</Button>
+                        <Button btnType="Button Success" disabled={!this.state.formIsvalid}> Order Now</Button>
                      </form>
         if (this.state.loading){
             form = <Spinner />
