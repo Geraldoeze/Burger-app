@@ -3,6 +3,7 @@
 const button = (props) => {
     return (
         <button 
+        disabled = {props.disabled }
         className= {props.btnType}
            onClick={props.clicked}
         >{props.children}</button>
