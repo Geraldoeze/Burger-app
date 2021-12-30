@@ -14,7 +14,6 @@ import * as actionTypes from '../../hoc/store/actions';
 
 class BurgerBuilder extends Component {
     state = {
-        totalPrice: 4,
         purchasable: false,
         purchasing: false,
         loading: false,
@@ -42,9 +41,9 @@ class BurgerBuilder extends Component {
             .reduce((sum, el) => {
                 return sum + el;
             }, 0);
-            this.setState({purchasable: sum > 0 })
-    }
-
+            return sum > 0
+        }
+     
     
     purchaseHandler = () => {
                 this.setState({purchasing: true});
@@ -55,17 +54,8 @@ class BurgerBuilder extends Component {
     }
 
     pruchaseContinueHandler = () => {
-                alert('Your Order')
-                
-                const queryParams = [];
-                for (let i in this.state.ingredients){
-                    queryParams.push(encodeURIComponent(i) + '=' + encodeURIComponent(this.state.ingredients[i]))
-                }
-                queryParams.push('price=' + this.props.price)
-                const queryString = queryParams.join('&')
                 this.props.navigate({
-                    pathname:'/checkout',
-                    search: "?" + queryString
+                    pathname:'/checkout'
                 }) 
     }
     render() {  
@@ -90,11 +80,11 @@ class BurgerBuilder extends Component {
                     disabled={disableInfo}
                     price={this.props.price}
                     ordered={this.purchaseHandler}
-                    purchasable={this.state.purchasable} />
+                    purchasable={this.updatePurchaseState(this.props.ings)} />
                 </Aux>    
             );
             orderSummary =  <OrderSummary
-                price={this.state.totalPrice.toFixed(2)}
+                price={this.props.price.toFixed(2)}
                 purchasedCancelled={this.purchaseCancelHandler}
                 purchasedContinued={this.pruchaseContinueHandler}
                 ingredients={this.props.ings}/> 

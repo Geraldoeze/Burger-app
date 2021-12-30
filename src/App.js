@@ -32,7 +32,7 @@ class App extends Component {
       <Layout>
         <Routes>
           <Route  path="/orders" element={<Orders/>} />
-          <Route path="/checkout" element={<Checkout pricecall={this.PriceCallback} callback={this.handleCallback}/>} />        
+          <Route path="/checkout" element={<Checkout/>} />        
           <Route path="/" exact element={<BurgerBuilder/>} />
           <Route path="/checkout/contact-data" 
             element={<ContactData stuff={this.state.ingredients} price={this.state.totalPrice} />} />       
