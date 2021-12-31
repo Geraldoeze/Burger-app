@@ -3,8 +3,12 @@ import withRouter from '../../hoc/withRouter/withRouter'
 import CheckoutSummary from '../../Comps/Order/CheckoutSummary/CheckoutSummary'
 // import {Link } from 'react-router-dom';
 import { connect } from 'react-redux'
+import {  Navigate } from 'react-router-dom'
+import * as actions from '../../hoc/store/action/index'
 
 class Checkout extends React.Component {
+
+   
     
     checkoutCancelledHandler = () => {
         this.props.navigate(-1);
@@ -20,17 +24,28 @@ class Checkout extends React.Component {
     
 
     render(){
-       
+       let summary = <Navigate to ="/"/>
+
+       if (this.props.ings) {
+       const purchasedRedirect = this.props.purchased ? <Navigate to="/" /> : null
+
+            summary = (
+              <div>
+                {purchasedRedirect}
+                <CheckoutSummary
+                ingredients={this.props.ings}
+                checkoutCancelled={this.checkoutCancelledHandler}
+                checkoutContinued={this.checkoutContinuedHandler}/>
+              </div>
+            );
+       }
 
         
         console.log(this.props.ings, this.props.location.pathname)
         return(
             <div>
-                 <CheckoutSummary
-                  ingredients={this.props.ings}
-                  checkoutCancelled={this.checkoutCancelledHandler}
-                  checkoutContinued={this.checkoutContinuedHandler}/>
-                {/* <Link to="/checkout/contact-data">ContactData</Link> */}
+                {summary}
+                      {/* <Link to="/checkout/contact-data">ContactData</Link> */}
                                                          
             </div>
         )
@@ -39,9 +54,12 @@ class Checkout extends React.Component {
 
 const mapStateToProps = state => {
     return {
-        ings: state.ingredients
+        ings: state.burgerBuilder.ingredients,
+        purchased: state.order.purchased
     }
-}
+};
+
+
 export default connect(mapStateToProps)(withRouter(Checkout));
 
 

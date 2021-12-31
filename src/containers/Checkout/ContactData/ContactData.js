@@ -7,6 +7,8 @@ import Spinner from '../../../Comps/UI/Spinner/Spinner';
 import withRouter from '../../../hoc/withRouter/withRouter';
 import withErrorHandler from '../../../hoc/withErrorHandler/withErrorHandler';
 import Input from '../../../Comps/UI/Input/Input';
+import * as actions from '../../../hoc/store/action/index'
+
 
 class ContactData extends React.Component {
     state ={
@@ -90,18 +92,16 @@ class ContactData extends React.Component {
                         {value: 'cheapest', displayValue: 'Cheapest'}
                     ]
                 },
-                value: '',
+                value: 'fastest',
                 validation: {},
                 valid: true 
             }
         },
-         loading:false,
          formIsvalid: false
     };
 
  orderHandler = (event) => {
      event.preventDefault();
-      this.setState({ loading: true});
       const formData = {};
       for (let formElementIdentifier in this.state.orderForm){
           formData[formElementIdentifier] = this.state.orderForm[formElementIdentifier].value
@@ -111,19 +111,8 @@ class ContactData extends React.Component {
                     price: this.props.price,
                     orderData: formData
                 }  
-            const sendPost = async () => {
-
-               axios.post(`/orders.json`, order)
-                    .then(res => {
-                           this.setState({ loading: false})
-                           this.props.navigate("/")
-
-                    })
-                    .catch(err => {
-                        this.setState({ loading: false})
-                    });
-            };
-            sendPost();    
+                console.log(order )
+                this.props.onOrderBurger(order);
   }
 
 checkVadility = (value, rules) => {
@@ -191,7 +180,7 @@ for (let key in this.state.orderForm){
                         ))}
                         <Button btnType="Button Success" disabled={!this.state.formIsvalid}> Order Now</Button>
                      </form>
-        if (this.state.loading){
+        if (this.props.loading){
             form = <Spinner />
         }
         return (
@@ -205,9 +194,15 @@ for (let key in this.state.orderForm){
 
 const mapStateToProps = state => {
     return{
-        ings: state.ingredients,
-        price: state.totalPrice
+        ings: state.burgerBuilder.ingredients,
+        price: state.burgerBuilder.totalPrice,
+        loading: state.burgerBuilder.loading
     }
 }
+
+const mapDispatchToProps = dispatch => {
+    return {
+    onOrderBurger: (orderData) => dispatch(actions.purchaseBurger(orderData))
+}}
  
-export default connect(mapStateToProps)(withRouter(withErrorHandler(ContactData, axios)));
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(withErrorHandler(ContactData, axios)));
