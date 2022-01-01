@@ -133,6 +133,14 @@ checkVadility = (value, rules) => {
     if (rules.maxLength) {
         isValid = value.length <= rules.maxLength && isValid
     } 
+    // if (rules.isEmail) {
+    //     const pattern = /[a-z0-9!#$%&]
+    // }
+
+    if (rules.isNumeric) {
+        const pattern = /^\d+$/;
+        isValid = pattern.test(value) && isValid
+    }
     return isValid;
 }
 

@@ -7,6 +7,7 @@ import { Routes, Route } from 'react-router-dom'
 import withRouter from './hoc/withRouter/withRouter';
 import ContactData from './containers/Checkout/ContactData/ContactData';
 import Orders from './containers/Orders/Orders';
+import Auth from './containers/Auth/Auth';
 
 
 class App extends Component {
@@ -32,6 +33,7 @@ class App extends Component {
       <Layout>
         <Routes>
           <Route  path="/orders" element={<Orders/>} />
+          <Route  path="/auth" element={<Auth/>} />
           <Route path="/checkout" element={<Checkout/>} />        
           <Route path="/" exact element={<BurgerBuilder/>} />
           <Route path="/checkout/contact-data" 

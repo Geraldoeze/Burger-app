@@ -4,7 +4,6 @@ import CheckoutSummary from '../../Comps/Order/CheckoutSummary/CheckoutSummary'
 // import {Link } from 'react-router-dom';
 import { connect } from 'react-redux'
 import {  Navigate } from 'react-router-dom'
-import * as actions from '../../hoc/store/action/index'
 
 class Checkout extends React.Component {
 
