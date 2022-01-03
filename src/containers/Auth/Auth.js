@@ -50,7 +50,6 @@ class Auth extends React.Component {
         if(rules.required) {
             //trim remove any leading white spaces
             isValid = value.trim() !== ' ' && isValid; 
-            console.log(rules.required)
         }
         if (rules.minLength) {
             isValid = value.length >= rules.minLength && isValid
@@ -92,7 +91,7 @@ class Auth extends React.Component {
             formElementsArray.push({
             id: key,
             config: this.state.controls[key]
-            });
+            }); 
         } 
         
         const form = formElementsArray.map(formElement => {
@@ -110,7 +109,7 @@ class Auth extends React.Component {
         })
         return (
             <div className="Auth">
-                <form>
+                <form onSubmit={this.submitHandler}>
                     {form}
                     <Button btnType="Button Success">SUBMIT</Button>
                 </form>

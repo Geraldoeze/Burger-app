@@ -47,10 +47,10 @@ const fetchedOrderSuccess = (state, action) => {
 const fetchedOrderFail = (state, action ) => {
     return updateObject(state, {loading: false})
 
-}
+} 
 
-const orderReducer = (state=initialState, action) => {
-    switch (action.types) {
+const reducer = (state=initialState, action) => {
+    switch (action.type) {
 
         case actionTypes.PURCHASE_INIT: return purchaseInit(state, action);
 
@@ -71,4 +71,4 @@ const orderReducer = (state=initialState, action) => {
     }
 };
  
-export default orderReducer;
+export default reducer;

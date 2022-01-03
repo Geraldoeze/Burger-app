@@ -204,7 +204,7 @@ const mapStateToProps = state => {
     return{
         ings: state.burgerBuilder.ingredients,
         price: state.burgerBuilder.totalPrice,
-        loading: state.burgerBuilder.loading
+        loading: state.order.loading
     }
 }
 

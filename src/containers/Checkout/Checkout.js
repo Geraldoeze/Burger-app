@@ -3,7 +3,7 @@ import withRouter from '../../hoc/withRouter/withRouter'
 import CheckoutSummary from '../../Comps/Order/CheckoutSummary/CheckoutSummary'
 // import {Link } from 'react-router-dom';
 import { connect } from 'react-redux'
-import {  Navigate } from 'react-router-dom'
+import { Navigate } from 'react-router'
 
 class Checkout extends React.Component {
 
@@ -19,12 +19,14 @@ class Checkout extends React.Component {
             replace: true})
 
     }
-    
+    refreshHandler = () => {
+        this.props.navigate("/")
+    }
     
 
     render(){
-       let summary = <Navigate to ="/"/>
-
+       let summary =  <Navigate to="/" />
+        console.log(this.props)
        if (this.props.ings) {
        const purchasedRedirect = this.props.purchased ? <Navigate to="/" /> : null
 
@@ -42,12 +44,9 @@ class Checkout extends React.Component {
         
         console.log(this.props.ings, this.props.location.pathname)
         return(
-            <div>
-                {summary}
-                      {/* <Link to="/checkout/contact-data">ContactData</Link> */}
-                                                         
-            </div>
-        )
+        <div>
+            {summary}
+        </div> ) 
     }
 }
 

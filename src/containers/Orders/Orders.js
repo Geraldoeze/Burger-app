@@ -10,6 +10,8 @@ class Orders extends React.Component {
 
     componentDidMount() {
         this.props.onFetchOrders();
+        console.log(this.props.onFetchOrders())
+
     }
  
     render() { 
@@ -34,7 +36,7 @@ class Orders extends React.Component {
 const mapStateToProps = state => {
     return {
         orders: state.order.orders,
-        loading: state.order.loading
+        loading: state.order.loading,
     }
 }
 
