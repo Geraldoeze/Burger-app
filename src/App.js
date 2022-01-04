@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import './App.css';
 import Layout from './hoc/Layout/Layout';
 import BurgerBuilder from './containers/BurgerBuilder/BurgerBuilder';
+
+import { Navigate } from 'react-router';
 import Checkout from './containers/Checkout/Checkout';
 import { Routes, Route } from 'react-router-dom'
 import withRouter from './hoc/withRouter/withRouter';
@@ -33,22 +35,48 @@ class App extends Component {
   //   this.setState({totalPrice:childData})
   // }
   render() {  
+
+    let routes = (
+      <div> 
+        <Routes>
+          
+           <Route path="/" exact element={<BurgerBuilder/>} />
+           
+        </Routes>
+
+      </div>
+    );
+
+      if (this.props.isAuthenticated) {
+         routes = (
+          <Routes>
+              <Route path="/logout" element={<Logout />} />
+              <Route path="/checkout" element={<Checkout/>} />        
+              <Route path="/" exact element={<BurgerBuilder/>} />
+              <Route path="/checkout/contact-data" 
+                element={<ContactData />} /> 
+              <Route  path="/orders" element={<Orders/>} />
+
+          </Routes>       
+         )
+      }
     return(
     <div>
       <Layout>
-        <Routes>
-          <Route  path="/orders" element={<Orders/>} />
-          <Route path="/logout" element={<Logout />} />
-          <Route  path="/auth" element={<Auth/>} />
-          <Route path="/checkout" element={<Checkout/>} />        
-          <Route path="/" exact element={<BurgerBuilder/>} />
-          <Route path="/checkout/contact-data" 
-            element={<ContactData />} />       
+         {routes}
 
-        </Routes> 
+        <Routes>
+         <Route  path="/auth" element={<Auth/>} /> 
+        </Routes>
       </Layout>
     </div>
     );
+  }
+}
+
+const mapStateToProps = state => {
+  return {
+    isAuthenticated: state.auth.token !== null
   }
 }
 
@@ -58,4 +86,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
  
-export default connect(null, mapDispatchToProps)(withRouter(App));
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(App));
