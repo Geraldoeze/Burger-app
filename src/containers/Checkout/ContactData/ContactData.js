@@ -8,7 +8,7 @@ import withRouter from '../../../hoc/withRouter/withRouter';
 import withErrorHandler from '../../../hoc/withErrorHandler/withErrorHandler';
 import Input from '../../../Comps/UI/Input/Input';
 import * as actions from '../../../hoc/store/action/index'
-
+import { updateObject, checkVadility } from '../../../shared/utility'
 
 class ContactData extends React.Component {
     state ={
@@ -146,16 +146,17 @@ checkVadility = (value, rules) => {
 }
 
 inputChangedHandler = (event, inputIdentifier) => {
-    const updatedOrdereForm = {
-        ...this.state.orderForm
+    
+    const updatedFormElement = updateObject(this.state.orderForm[inputIdentifier],{
+        value: event.target.value,
+        valid: checkVadility(event.target.value, this.state.orderForm[inputIdentifier].validation),
+        touched: true
     }
-    const updatedFormElement = {
-        ...updatedOrdereForm[inputIdentifier]
-    }; 
-    updatedFormElement.value = event.target.value;
-    updatedFormElement.valid = this.checkVadility(updatedFormElement.value, updatedFormElement.validation)
-    updatedFormElement.touched = true;
-    updatedOrdereForm[inputIdentifier] = updatedFormElement;
+        );
+        const updatedOrdereForm = updateObject(this.state.orderForm, {
+        [inputIdentifier]: updatedFormElement
+        })
+        
     let formIsvalid = true;
     for (let inputIdentifier in updatedOrdereForm){
         formIsvalid = updatedOrdereForm[inputIdentifier].valid &&  formIsvalid;
