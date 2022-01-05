@@ -9,6 +9,9 @@ import { Routes, Route } from 'react-router-dom'
 import withRouter from './hoc/withRouter/withRouter';
 import ContactData from './containers/Checkout/ContactData/ContactData';
 import Orders from './containers/Orders/Orders';
+
+
+
 import Auth from './containers/Auth/Auth';
 import Logout from './containers/Auth/Logout/Logout';
 import { connect } from 'react-redux';
