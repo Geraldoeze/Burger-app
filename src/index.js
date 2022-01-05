@@ -13,7 +13,7 @@ import authReducer from './hoc/store/reducers/auth'
 import reportWebVitals from './reportWebVitals';
 import burgerBuilderReducer from './hoc/store/reducers/burgerbuilder';
 
-const composeEnhancers = window._REDUX_DEVTOOLS_EXTENSION__COMPOSE__ || compose
+const composeEnhancers = process.env.NODE_ENV === 'deve;opment' ? window._REDUX_DEVTOOLS_EXTENSION__COMPOSE__ : null || compose
 
 const rootReducer = combineReducers({
   burgerBuilder: burgerBuilderReducer,

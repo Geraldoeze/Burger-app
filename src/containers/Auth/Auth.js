@@ -111,7 +111,6 @@ class Auth extends React.Component {
 
         let authRedirect = null;
         if (this.props.isAuthenticated) {
-            console.log(this.props.authRedirectPath)
             authRedirect = <Navigate to={this.props.authRedirectPath}/>
         }
 
