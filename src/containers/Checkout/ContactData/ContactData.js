@@ -1,5 +1,4 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import Button from '../../../Comps/UI/Button/Button';
 import './ContactData.css';
 import axios from '../../../axios-orders';
@@ -7,8 +6,6 @@ import Spinner from '../../../Comps/UI/Spinner/Spinner';
 import withRouter from '../../../hoc/withRouter/withRouter';
 import withErrorHandler from '../../../hoc/withErrorHandler/withErrorHandler';
 import Input from '../../../Comps/UI/Input/Input';
-import * as actions from '../../../hoc/store/action/index'
-import { updateObject, checkVadility } from '../../../shared/utility'
 
 class ContactData extends React.Component {
     state ={
@@ -92,27 +89,40 @@ class ContactData extends React.Component {
                         {value: 'cheapest', displayValue: 'Cheapest'}
                     ]
                 },
-                value: 'fastest',
+                value: '',
                 validation: {},
                 valid: true 
             }
         },
+         loading:false,
          formIsvalid: false
     };
 
  orderHandler = (event) => {
      event.preventDefault();
+      this.setState({ loading: true});
       const formData = {};
       for (let formElementIdentifier in this.state.orderForm){
           formData[formElementIdentifier] = this.state.orderForm[formElementIdentifier].value
       }
                 const order = {
-                    ingredients: this.props.ings,
+                    ingredients: this.state.ingredients,
                     price: this.props.price,
-                    orderData: formData,
-                    userId: this.props.userId
+                    orderData: formData
                 }  
-                this.props.onOrderBurger(order, this.props.token);
+            const sendPost = async () => {
+
+               axios.post(`/orders.json`, order)
+                    .then(res => {
+                           this.setState({ loading: false})
+                           this.props.navigate("/")
+
+                    })
+                    .catch(err => {
+                        this.setState({ loading: false})
+                    });
+            };
+            sendPost();    
   }
 
 checkVadility = (value, rules) => {
@@ -133,29 +143,20 @@ checkVadility = (value, rules) => {
     if (rules.maxLength) {
         isValid = value.length <= rules.maxLength && isValid
     } 
-    // if (rules.isEmail) {
-    //     const pattern = /[a-z0-9!#$%&]
-    // }
-
-    if (rules.isNumeric) {
-        const pattern = /^\d+$/;
-        isValid = pattern.test(value) && isValid
-    }
     return isValid;
 }
 
 inputChangedHandler = (event, inputIdentifier) => {
-    
-    const updatedFormElement = updateObject(this.state.orderForm[inputIdentifier],{
-        value: event.target.value,
-        valid: checkVadility(event.target.value, this.state.orderForm[inputIdentifier].validation),
-        touched: true
+    const updatedOrdereForm = {
+        ...this.state.orderForm
     }
-        );
-        const updatedOrdereForm = updateObject(this.state.orderForm, {
-        [inputIdentifier]: updatedFormElement
-        })
-        
+    const updatedFormElement = {
+        ...updatedOrdereForm[inputIdentifier]
+    }; 
+    updatedFormElement.value = event.target.value;
+    updatedFormElement.valid = this.checkVadility(updatedFormElement.value, updatedFormElement.validation)
+    updatedFormElement.touched = true;
+    updatedOrdereForm[inputIdentifier] = updatedFormElement;
     let formIsvalid = true;
     for (let inputIdentifier in updatedOrdereForm){
         formIsvalid = updatedOrdereForm[inputIdentifier].valid &&  formIsvalid;
@@ -189,7 +190,7 @@ for (let key in this.state.orderForm){
                         ))}
                         <Button btnType="Button Success" disabled={!this.state.formIsvalid}> Order Now</Button>
                      </form>
-        if (this.props.loading){
+        if (this.state.loading){
             form = <Spinner />
         }
         return (
@@ -200,20 +201,5 @@ for (let key in this.state.orderForm){
         )
     }
 }
-
-const mapStateToProps = state => {
-    return{
-        ings: state.burgerBuilder.ingredients,
-        price: state.burgerBuilder.totalPrice,
-        loading: state.order.loading,
-        token: state.auth.token,
-        userId: state.auth.userId
-    }
-}
-
-const mapDispatchToProps = dispatch => {
-    return {
-    onOrderBurger: (orderData, token) => dispatch(actions.purchaseBurger(orderData, token))
-}}
  
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(withErrorHandler(ContactData, axios)));
+export default withRouter(withErrorHandler(ContactData, axios));
