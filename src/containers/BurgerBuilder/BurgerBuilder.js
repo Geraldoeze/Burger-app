@@ -12,7 +12,7 @@ import * as actions from '../../hoc/store/action/index';
 import axios from '../../axios-orders';
 
 
-class BurgerBuilder extends Component {
+export class BurgerBuilder extends Component {
     state = {
         purchasable: false,
         purchasing: false,
@@ -21,7 +21,7 @@ class BurgerBuilder extends Component {
     }
 
     componentDidMount(){
-        this.props.onInitIngredients()
+        this.props.onInitIngredients();
     }
 
     updatePurchaseState (ingredients) {
@@ -86,7 +86,7 @@ class BurgerBuilder extends Component {
                 </Aux>    
             );
             orderSummary =  <OrderSummary
-                price={this.props.price.toFixed(2)}
+                price={this.props.price}
                 purchasedCancelled={this.purchaseCancelHandler}
                 purchasedContinued={this.pruchaseContinueHandler}
                 ingredients={this.props.ings}/> 
