@@ -3,7 +3,7 @@ import './App.css';
 import Layout from './hoc/Layout/Layout';
 import BurgerBuilder from './containers/BurgerBuilder/BurgerBuilder';
 
-import { Navigate } from 'react-router';
+// import { Navigate } from 'react-router';
 import Checkout from './containers/Checkout/Checkout';
 import { Routes, Route } from 'react-router-dom'
 import withRouter from './hoc/withRouter/withRouter';

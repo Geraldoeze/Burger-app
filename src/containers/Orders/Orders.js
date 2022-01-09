@@ -18,9 +18,10 @@ class Orders extends React.Component {
         if (!this.props.loading) {
             orders = this.props.orders.map(order => (
                     <Order 
+                        key={order.id }
                         ingredients={order.ingredients}
                         price={order.price}      
-                        key={order.id }/>
+                     />
                 ))}
             
         
