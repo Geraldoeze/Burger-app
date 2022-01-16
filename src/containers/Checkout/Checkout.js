@@ -5,37 +5,34 @@ import CheckoutSummary from '../../Comps/Order/CheckoutSummary/CheckoutSummary'
 import { connect } from 'react-redux'
 import { Navigate } from 'react-router'
 
-class Checkout extends React.Component {
-
-   
+const Checkout = (props) => {
     
-    checkoutCancelledHandler = () => {
-        this.props.navigate(-1);
+    const checkoutCancelledHandler = () => {
+        props.navigate(-1);
     }
 
-    checkoutContinuedHandler = () => {
-        this.props.navigate({
+    const checkoutContinuedHandler = () => {
+        props.navigate({
             pathname: "/checkout/contact-data",
             replace: true})
 
     }
-    refreshHandler = () => {
-        this.props.navigate("/")
+    const refreshHandler = () => {
+        props.navigate("/")
     }
     
 
-    render(){
        let summary =  <Navigate to="/" />
-       if (this.props.ings) {
-       const purchasedRedirect = this.props.purchased ? <Navigate to="/" /> : null
+       if (props.ings) {
+       const purchasedRedirect = props.purchased ? <Navigate to="/" /> : null
 
             summary = (
               <div>
                 {purchasedRedirect}
                 <CheckoutSummary
-                ingredients={this.props.ings}
-                checkoutCancelled={this.checkoutCancelledHandler}
-                checkoutContinued={this.checkoutContinuedHandler}/>
+                ingredients={props.ings}
+                checkoutCancelled={checkoutCancelledHandler}
+                checkoutContinued={checkoutContinuedHandler}/>
               </div>
             );
        }
@@ -45,7 +42,7 @@ class Checkout extends React.Component {
         <div>
             {summary}
         </div> ) 
-    }
+    
 }
 
 const mapStateToProps = state => {

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import Button from '../../../Comps/UI/Button/Button';
 import './ContactData.css';
@@ -10,9 +10,9 @@ import Input from '../../../Comps/UI/Input/Input';
 import * as actions from '../../../hoc/store/action/index'
 import { updateObject, checkVadility } from '../../../shared/utility'
 
-class ContactData extends React.Component {
-    state ={
-        orderForm:{
+const ContactData = (props) => {
+    const [orderForm, setOrderForm] = useState(
+        {
                 name: {
                     elementType: 'input',
                     elementConfig: {
@@ -96,84 +96,88 @@ class ContactData extends React.Component {
                 validation: {},
                 valid: true 
             }
-        },
-         formIsvalid: false
-    };
-
- orderHandler = (event) => {
-     event.preventDefault();
-      const formData = {};
-      for (let formElementIdentifier in this.state.orderForm){
-          formData[formElementIdentifier] = this.state.orderForm[formElementIdentifier].value
-      }
-                const order = {
-                    ingredients: this.props.ings,
-                    price: this.props.price,
-                    orderData: formData,
-                    userId: this.props.userId
-                }  
-                this.props.onOrderBurger(order, this.props.token);
-  }
-
-checkVadility = (value, rules) => {
-    let isValid = true;
-
-    if (!rules){
-        return true;
-    }
-
-    if(rules.required) {
-        //trim remove any leading white spaces
-        isValid = value.trim() !== ' ' && isValid; 
-        console.log(rules.required)
-    }
-    if (rules.minLength) {
-        isValid = value.length >= rules.minLength && isValid
-    }
-    if (rules.maxLength) {
-        isValid = value.length <= rules.maxLength && isValid
-    } 
-    // if (rules.isEmail) {
-    //     const pattern = /[a-z0-9!#$%&]
-    // }
-
-    if (rules.isNumeric) {
-        const pattern = /^\d+$/;
-        isValid = pattern.test(value) && isValid
-    }
-    return isValid;
-}
-
-inputChangedHandler = (event, inputIdentifier) => {
+        });
+        const [formIsValid, setFormIsValid] = useState(false)
     
-    const updatedFormElement = updateObject(this.state.orderForm[inputIdentifier],{
-        value: event.target.value,
-        valid: checkVadility(event.target.value, this.state.orderForm[inputIdentifier].validation),
-        touched: true
+
+    const orderHandler = (event) => {
+        event.preventDefault();
+        const formData = {};
+        for (let formElementIdentifier in orderForm){
+            formData[formElementIdentifier] = orderForm[formElementIdentifier].value
+        }
+                    const order = {
+                        ingredients: props.ings,
+                        price: props.price,
+                        orderData: formData,
+                        userId: props.userId
+                    }  
+                    props.onOrderBurger(order, props.token);
+                    props.navigate("/")
+
     }
-        );
-        const updatedOrdereForm = updateObject(this.state.orderForm, {
-        [inputIdentifier]: updatedFormElement
-        })
+
+
+    checkVadility = (value, rules) => {
+        let isValid = true;
+
+        if (!rules){
+            return true;
+        }
+
+        if(rules.required) {
+            //trim remove any leading white spaces
+            isValid = value.trim() !== ' ' && isValid; 
+            console.log(rules.required)
+        }
+        if (rules.minLength) {
+            isValid = value.length >= rules.minLength && isValid
+        }
+        if (rules.maxLength) {
+            isValid = value.length <= rules.maxLength && isValid
+        } 
+        // if (rules.isEmail) {
+        //     const pattern = /[a-z0-9!#$%&]
+        // }
+
+        if (rules.isNumeric) {
+            const pattern = /^\d+$/;
+            isValid = pattern.test(value) && isValid
+        }
+        return isValid;
+    }
+
+    const inputChangedHandler = (event, inputIdentifier) => {
         
-    let formIsvalid = true;
-    for (let inputIdentifier in updatedOrdereForm){
-        formIsvalid = updatedOrdereForm[inputIdentifier].valid &&  formIsvalid;
+        const updatedFormElement = updateObject(orderForm[inputIdentifier],{
+            value: event.target.value,
+            valid: checkVadility(event.target.value, orderForm[inputIdentifier].validation),
+            touched: true
+        }
+            );
+            const updatedOrdereForm = updateObject(orderForm, {
+            [inputIdentifier]: updatedFormElement
+            })
+            
+        let formIsvalid = true;
+        for (let inputIdentifier in updatedOrdereForm){
+            formIsvalid = updatedOrdereForm[inputIdentifier].valid &&  formIsvalid;
+        }
+        setOrderForm(updatedOrdereForm);
+        setFormIsValid(formIsValid);
+        
     }
-    this.setState({orderForm: updatedOrdereForm, formIsvalid: formIsvalid})
     
-}
-    render() { 
-//This enables us to access name, street, zipcode  
-const formElementsArray = [];
-for (let key in this.state.orderForm){
-    formElementsArray.push({
-        id: key,
-        config: this.state.orderForm[key]
-    });
-} 
-     
-        let form =  <form onSubmit={this.orderHandler}>
+    //This enables us to access name, street, zipcode  
+    const formElementsArray = [];
+    for (let key in orderForm){
+        formElementsArray.push({
+            id: key,
+            config: orderForm[key]
+        });
+    } 
+        
+        let form =  <form onSubmit={orderHandler}>
                         {formElementsArray.map(formElement => (
                             <Input 
 
@@ -184,10 +188,10 @@ for (let key in this.state.orderForm){
                                 elementType={formElement.config.elementType}
                                 elementConfig={formElement.config.elementConfig}
                                 value={formElement.config.value}
-                                changed={(event) => this.inputChangedHandler(event, formElement.id)}
+                                changed={(event) => inputChangedHandler(event, formElement.id)}
                             />
                         ))}
-                        <Button btnType="Button Success" disabled={!this.state.formIsvalid}> Order Now</Button>
+                        <Button btnType="Button Success" disabled={!formIsValid}> Order Now</Button>
                      </form>
         if (this.props.loading){
             form = <Spinner />
@@ -198,8 +202,8 @@ for (let key in this.state.orderForm){
                {form}
             </div>
         )
-    }
-}
+    
+};
 
 const mapStateToProps = state => {
     return{
