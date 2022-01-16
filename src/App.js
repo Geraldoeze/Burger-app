@@ -37,7 +37,7 @@ const App = (props) => {
 
   useEffect(() => {
     onTryAutoSignup();
-  }, []);
+  }, [onTryAutoSignup]);
 
     let routes = (
       <div> 
