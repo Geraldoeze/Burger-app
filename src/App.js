@@ -1,43 +1,43 @@
-import React, { Component } from 'react';
+import React, { useEffect, Suspense } from 'react';
 import './App.css';
 import Layout from './hoc/Layout/Layout';
 import BurgerBuilder from './containers/BurgerBuilder/BurgerBuilder';
 
 // import { Navigate } from 'react-router';
-import Checkout from './containers/Checkout/Checkout';
+// import Checkout from './containers/Checkout/Checkout';
 import { Routes, Route } from 'react-router-dom'
 import withRouter from './hoc/withRouter/withRouter';
 import ContactData from './containers/Checkout/ContactData/ContactData';
-import Orders from './containers/Orders/Orders';
+// import Orders from './containers/Orders/Orders';
 
 
 
-import Auth from './containers/Auth/Auth';
+// import Auth from './containers/Auth/Auth';
 import Logout from './containers/Auth/Logout/Logout';
 import { connect } from 'react-redux';
 import * as actions from './hoc/store/action/index'
 
 
-class App extends Component {
-  componentDidMount () {
-    this.props.onTryAutoSignup()
-  }
-  state = {
-    ingredients: '',
-    totalPrice: null
-  }
+const Auth = React.lazy(() => {
+  return import('./containers/Auth/Auth')
+});
+
+const Checkout = React.lazy(() => {
+  return import('./containers/Checkout/Checkout')
+});
+
+const Orders = React.lazy(() => {
+  return import('./containers/Orders/Orders')
+});
 
 
-  // //Gets the value of state from ckeckout component
-  // handleCallback = (childData) => {
-  //   this.setState({ingredients: childData})
-  // } 
+const App = (props) => {
+ 
+  const { onTryAutoSignup } = props;
 
-  // //Gets the totalPrice value from checkout.js
-  // PriceCallback = (childData) => {
-  //   this.setState({totalPrice:childData})
-  // }
-  render() {  
+  useEffect(() => {
+    onTryAutoSignup();
+  }, []);
 
     let routes = (
       <div> 
@@ -50,7 +50,7 @@ class App extends Component {
       </div>
     );
 
-      if (this.props.isAuthenticated) {
+      if (props.isAuthenticated) {
          routes = (
           <Routes>
               <Route path="/logout" element={<Logout />} />
@@ -66,15 +66,17 @@ class App extends Component {
     return(
     <div>
       <Layout>
-         {routes}
+          <Suspense fallback={<p>Loading...</p>}>
+          {routes}
 
-        <Routes>
-         <Route  path="/auth" element={<Auth/>} /> 
-        </Routes>
+          <Routes>
+          <Route  path="/auth" element={<Auth/>} /> 
+          </Routes>
+        </Suspense>
       </Layout>
     </div>
     );
-  }
+  
 }
 
 const mapStateToProps = state => {
