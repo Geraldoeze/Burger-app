@@ -118,7 +118,7 @@ const ContactData = (props) => {
     }
 
 
-    checkVadility = (value, rules) => {
+    const checkVadility = (value, rules) => {
         let isValid = true;
 
         if (!rules){
@@ -193,7 +193,7 @@ const ContactData = (props) => {
                         ))}
                         <Button btnType="Button Success" disabled={!formIsValid}> Order Now</Button>
                      </form>
-        if (this.props.loading){
+        if (props.loading){
             form = <Spinner />
         }
         return (
