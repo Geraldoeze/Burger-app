@@ -8,7 +8,7 @@ import withRouter from '../../../hoc/withRouter/withRouter';
 import withErrorHandler from '../../../hoc/withErrorHandler/withErrorHandler';
 import Input from '../../../Comps/UI/Input/Input';
 import * as actions from '../../../hoc/store/action/index'
-import { updateObject, checkVadility } from '../../../shared/utility'
+import { updateObject  } from '../../../shared/utility'
 
 const ContactData = (props) => {
     const [orderForm, setOrderForm] = useState(
